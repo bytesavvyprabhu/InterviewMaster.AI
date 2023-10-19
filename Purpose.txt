@@ -1,0 +1,16 @@
+"""""""""""""""""""""""""""""""""""
+####  The Purpose of this project is to make a web project using streamlit , Python and GPT
+ to Practice Interview prepration. 
+
+ ---- In this you need to give the area or detail about your Interview as Input 
+ to ChatGPT .
+
+ ---- On the basis of your input chatgpt will prepare the questions.and one by one 
+ he will ask you all the questions. and you have to speek the ans.
+
+ ---- on the same time he will record the ans and analyze the mistakes. 
+
+ ---- On the basis of his analysis he will provide you the result.So that you Can 
+ Improve yourself in that areas.
+
+ """""""""""""""""""""""""""""""""""

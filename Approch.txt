@@ -1,0 +1,22 @@
+######################
+
+Step 1 - Design the Streamlit UI.
+Step 2 - write Python code.
+Step 3 - connect with ChatGPT.
+Step 4 - Manage the variables.
+Step 5 - There is an ai tool for speech to text named "assemblyai". ty to use this.
+step 6 - place a stop button also
+step 7 - attach with db to store the analysis result and question and ans.
+
+
+
+
+
+
+
+
+
+
+
+
+

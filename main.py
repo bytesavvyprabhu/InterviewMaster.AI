@@ -1,43 +1,40 @@
 import streamlit as st
-import speech_recognition as sr
+from chat_gpt import prompting
+from sound_recording import record_audio_to_wav
+from promptin import question_prompt, ans_prompt
+import threading
 
-# Initialize the recognizer
-recognizer = sr.Recognizer()
+question_by_chatGPT = None
 
-# Streamlit app layout
-st.title("Speech-to-Text App")
+# Streamlit app layout.
+st.title("Welcome at InterviewMaster.AI")
 
-# Define the question
-question = st.text_area("Question:", "What is your question?")
+# Getting Programing language, year of experience and desire company name.
+st.write('''Please enter your coding language, years of experience, and desired company (space-separated) below:''')
 
-# Create an expander for the microphone and stop button
-with st.expander("Speech Input"):
-    mic_button = st.button("Start Recording")
-    stop_button = st.button("Stop Recording")
+question = st.text_area("Interview:")
 
-# Initialize a list to store speech-to-text results
-results = st.sidebar.beta_container()
-speech_results = []
+prompt_input = question.split(",")
 
-# Analyze button to process the speech
-if st.button("Analyze"):
-    if mic_button:
-        st.warning("Please stop recording before analyzing.")
-    else:
-        try:
-            with sr.Microphone() as source:
-                st.info("Recording... Speak now.")
-                audio = recognizer.listen(source)
-            text = recognizer.recognize_google(audio)
-            speech_results.append(text)
-            results.write(f"Speech-to-Text Result: {text}")
-        except sr.UnknownValueError:
-            st.warning("Sorry, I could not understand the audio.")
-        except sr.RequestError as e:
-            st.error(f"Could not request results; {e}")
+coding_lang = prompt_input[0] if len(prompt_input) > 0 else None
 
-# Display the speech-to-text results
-with results:
-    st.title("Speech-to-Text Results")
-    for idx, result in enumerate(speech_results):
-        st.write(f"Result {idx + 1}: {result}")
+exp = prompt_input[1] if len(prompt_input) > 1 else None
+
+company_name = prompt_input[2] if len(prompt_input) > 2 else None
+
+# Button for asking a question
+ask_question_button = st.button("Ask Question")
+
+if ask_question_button:
+    # Generate a question from ChatGPT based on user input
+    prompt_question = question_prompt(coding_lang, exp, company_name)
+    question_by_chatGPT = prompting(prompt_question)
+    question_in_list = prompt_question.split(';')
+    for i in question_in_list:
+        # Display the generated question
+        st.write(i)
+        if st.button("Start"):
+            text = record_audio_to_wav()
+            st.write(text)
+            result_thread = threading.Thread(target=ans_prompt, args=(i,text,))
+            result_thread.start()  
